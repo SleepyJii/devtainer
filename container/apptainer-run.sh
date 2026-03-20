@@ -6,7 +6,9 @@
 #
 set -euo pipefail
 
-IMAGE="${1:-docker://localhost/hackathon-dev:latest}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(dirname "${SCRIPT_DIR}")"
+IMAGE="${1:-${REPO_ROOT}/hackathon-dev.sif}"
 INSTANCE_NAME="${2:-hackdev}"
 DEVHOME="${HOME}/devhome"
 
