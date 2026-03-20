@@ -24,8 +24,6 @@ apptainer instance start \
     --bind "${DEVHOME}":/home/jpk2 \
     --writable-tmpfs \
     --no-home \
-    --net \
-    --network-args "portmap=2222:22/tcp" \
     "${IMAGE}" \
     "${INSTANCE_NAME}"
 

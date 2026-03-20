@@ -8,10 +8,8 @@ tailscaled \
     --state=/var/lib/tailscale/tailscaled.state \
     --socket=/var/run/tailscale/tailscaled.sock &
 
-# ── Start SSHD ──────────────────────────────────────────────────────
-/usr/sbin/sshd -D &
-
-echo "==> Dev container is up. Tailscaled + SSHD running."
+echo "==> Dev container is up. Tailscaled running."
+echo "    Register with: tailscale up --ssh"
 
 # Keep the container alive
 exec sleep infinity

@@ -5,7 +5,7 @@ RUN dnf install -y \
         python3 python3-pip \
         tmux vim neovim tree \
         git curl wget unzip jq \
-        openssh-server openssh-clients \
+        openssh-clients \
         iptables procps-ng sudo \
         nodejs npm \
     && dnf clean all
@@ -28,16 +28,8 @@ RUN npm install -g @anthropic-ai/claude-code
 RUN useradd -m -s /bin/bash -G wheel jpk2 \
     && echo 'jpk2 ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/jpk2
 
-# ── SSHD config ──────────────────────────────────────────────────────
-RUN ssh-keygen -A \
-    && sed -i 's/^#PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config \
-    && sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config \
-    && mkdir -p /run/sshd
-
 # ── Entrypoint ───────────────────────────────────────────────────────
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
-
-EXPOSE 22
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
