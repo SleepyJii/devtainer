@@ -11,8 +11,9 @@ REPO_ROOT="$(dirname "${SCRIPT_DIR}")"
 IMAGE="${1:-${REPO_ROOT}/hackathon-dev.sif}"
 INSTANCE_NAME="${2:-hackdev}"
 DEVHOME="${HOME}/devhome"
+TS_STATE="${HOME}/tailscale-state"
 
-mkdir -p "${DEVHOME}"
+mkdir -p "${DEVHOME}" "${TS_STATE}"
 
 echo "==> Starting dev container as instance '${INSTANCE_NAME}'..."
 echo "    Image:   ${IMAGE}"
@@ -22,6 +23,7 @@ echo "    Docker:  /var/run/docker.sock (host)"
 apptainer instance start \
     --bind /var/run/docker.sock:/var/run/docker.sock \
     --bind "${DEVHOME}":/home/jpk2 \
+    --bind "${TS_STATE}":/var/lib/tailscale \
     --writable-tmpfs \
     --containall \
     "${IMAGE}" \
