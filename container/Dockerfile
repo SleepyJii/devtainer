@@ -28,8 +28,12 @@ RUN npm install -g @anthropic-ai/claude-code
 RUN useradd -m -s /bin/bash -G wheel jpk2 \
     && echo 'jpk2 ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/jpk2
 
+# ── Tailscale socket for CLI commands ─────────────────────────────────
+ENV TS_SOCKET=/var/run/tailscale/tailscaled.sock
+
 # ── Entrypoint ───────────────────────────────────────────────────────
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY tailscale-up.sh /usr/local/bin/tailscale-up.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/tailscale-up.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
