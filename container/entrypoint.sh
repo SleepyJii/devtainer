@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ── Tailscale state dirs (created as root before dropping privileges) ─
+# ── Tailscale state dirs ──────────────────────────────────────────────
 mkdir -p /var/run/tailscale /var/lib/tailscale
-chown jpk2:jpk2 /var/run/tailscale /var/lib/tailscale
 
-# ── Drop to jpk2 and run everything from here ────────────────────────
+# ── Run as jpk2 ──────────────────────────────────────────────────────
 exec su jpk2 -c '
     tailscaled \
         --tun=userspace-networking \
