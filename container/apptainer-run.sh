@@ -23,7 +23,7 @@ apptainer instance start \
     --bind /var/run/docker.sock:/var/run/docker.sock \
     --bind "${DEVHOME}":/home/jpk2 \
     --writable-tmpfs \
-    --no-home \
+    --containall \
     "${IMAGE}" \
     "${INSTANCE_NAME}"
 
