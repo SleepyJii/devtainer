@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ── Tailscale in userspace mode (no TUN required) ────────────────────
+# ── Tailscale state dirs (created as root before dropping privileges) ─
 mkdir -p /var/run/tailscale /var/lib/tailscale
-tailscaled \
-    --tun=userspace-networking \
-    --state=/var/lib/tailscale/tailscaled.state \
-    --socket=/var/run/tailscale/tailscaled.sock &
+chown jpk2:jpk2 /var/run/tailscale /var/lib/tailscale
 
-echo "==> Dev container is up. Tailscaled running."
-echo "    Register with: tailscale up --ssh"
+# ── Drop to jpk2 and run everything from here ────────────────────────
+exec su jpk2 -c '
+    tailscaled \
+        --tun=userspace-networking \
+        --state=/var/lib/tailscale/tailscaled.state \
+        --socket=/var/run/tailscale/tailscaled.sock &
 
-# Keep the container alive
-exec sleep infinity
+    echo "==> Dev container is up. Tailscaled running as jpk2."
+    echo "    Register with: tailscale-up.sh"
+
+    sleep infinity
+'
