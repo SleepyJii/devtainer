@@ -31,13 +31,12 @@ RUN useradd -m -s /bin/bash -G wheel jpk2 \
 # ── Tailscale socket for CLI commands ─────────────────────────────────
 ENV TS_SOCKET=/var/run/tailscale/tailscaled.sock
 
+# ── Entrypoint ───────────────────────────────────────────────────────
+COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY --chmod=755 tailscale-up.sh /usr/local/bin/tailscale-up.sh
+
 # ── Run as jpk2 ──────────────────────────────────────────────────────
 USER jpk2
 WORKDIR /home/jpk2
-
-# ── Entrypoint ───────────────────────────────────────────────────────
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY tailscale-up.sh /usr/local/bin/tailscale-up.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/tailscale-up.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
