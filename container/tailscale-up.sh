@@ -12,4 +12,5 @@ HOSTNAME="${1:-hackdev-jpk2}"
 
 tailscale up \
     --ssh \
+    --allow-risks=all \
     --hostname="${HOSTNAME}"
