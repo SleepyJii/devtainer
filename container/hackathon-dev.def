@@ -1,0 +1,8 @@
+Bootstrap: docker-daemon
+From: hackathon-dev:latest
+
+%startscript
+exec /usr/local/bin/entrypoint.sh
+
+%runscript
+exec /usr/local/bin/entrypoint.sh

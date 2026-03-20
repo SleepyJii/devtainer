@@ -13,8 +13,8 @@ SIF_FILE="${REPO_ROOT}/${IMAGE_NAME}.sif"
 echo "==> Building Docker image '${IMAGE_NAME}'..."
 docker build -t "${IMAGE_NAME}:latest" "${REPO_ROOT}/container"
 
-echo "==> Exporting to SIF: ${SIF_FILE}"
-apptainer build "${SIF_FILE}" "docker-daemon://${IMAGE_NAME}:latest"
+echo "==> Building SIF from def file: ${SIF_FILE}"
+apptainer build --force "${SIF_FILE}" "${REPO_ROOT}/container/${IMAGE_NAME}.def"
 
 echo ""
 echo "==> Done: ${SIF_FILE}"
